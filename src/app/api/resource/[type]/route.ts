@@ -42,8 +42,7 @@ export async function POST(
     createdAt: new Date().toISOString(),
   });
 
-  // Chats persist silently — individual messages shouldn't flood the activity feed.
-  if (type !== "chats") {
+  if (!SILENT.has(type)) {
     await logActivity(user._id, `Created ${type.replace(/s$/, "")}`, String(body.name || body.product || body.customer || ""));
   }
   return NextResponse.json({ ok: true, item });

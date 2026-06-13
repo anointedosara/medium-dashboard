@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getStore } from "@/lib/db";
 import { getCurrentUser, logActivity } from "@/lib/auth";
 
-const ALLOWED = new Set(["projects", "products", "orders", "team", "notifications", "people", "billing", "chats", "schedules"]);
+const ALLOWED = new Set(["projects", "products", "orders", "team", "notifications", "people", "billing", "chats", "schedules", "tasks"]);
+const SILENT = new Set(["chats", "tasks"]);
 
 export async function PATCH(
   req: NextRequest,
@@ -27,7 +28,7 @@ export async function PATCH(
     { _id: id, userId: user._id },
     { ...body, updatedAt: new Date().toISOString() }
   );
-  if (type !== "chats") await logActivity(user._id, `Updated ${type.replace(/s$/, "")}`);
+  if (!SILENT.has(type)) await logActivity(user._id, `Updated ${type.replace(/s$/, "")}`);
   return NextResponse.json({ ok: true, item });
 }
 
@@ -46,6 +47,6 @@ export async function DELETE(
   if (!existing) return NextResponse.json({ error: "Not found." }, { status: 404 });
 
   await db.collection(type).deleteOne({ _id: id, userId: user._id });
-  if (type !== "chats") await logActivity(user._id, `Deleted ${type.replace(/s$/, "")}`);
+  if (!SILENT.has(type)) await logActivity(user._id, `Deleted ${type.replace(/s$/, "")}`);
   return NextResponse.json({ ok: true });
 }
