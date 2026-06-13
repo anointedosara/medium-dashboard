@@ -195,8 +195,8 @@ export default function ChatPage() {
 
       {/* New-chat picker */}
       {picking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setPicking(false)}>
-          <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/40 p-4" onClick={() => setPicking(false)}>
+          <div className="w-full max-w-sm animate-scale-in rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-base font-bold text-ink">Start a conversation</h3>
               <button onClick={() => setPicking(false)} className="text-slate-400 hover:text-ink"><Icon name="close" size={18} /></button>

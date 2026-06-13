@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Sidebar } from "./Sidebar";
 import { Icon } from "@/components/Icon";
 import { useNotifications, decorateNotification, timeAgo } from "./useNotifications";
+import { ScrollReveal } from "./ScrollReveal";
 
 const TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -74,9 +75,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={titleFromPath(pathname)} onMenu={() => setMobileOpen(true)} />
         <main className="scroll-thin flex-1 overflow-y-auto p-4 sm:p-6">
-          <div className="animate-fade-in mx-auto w-full max-w-[1600px]">{children}</div>
+          {/* key by route so each page fades in on navigation */}
+          <div key={pathname} className="animate-page mx-auto w-full max-w-[1600px]">{children}</div>
         </main>
       </div>
+      <ScrollReveal />
     </div>
   );
 }
@@ -132,7 +135,7 @@ function NotificationBell() {
       >
         <Icon name="bell" size={20} />
         {unread > 0 && (
-          <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
+          <span className="absolute right-1 top-1 flex h-4 min-w-4 animate-pop items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
@@ -141,7 +144,7 @@ function NotificationBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 z-40 mt-2 w-80 overflow-hidden rounded-xl bg-white shadow-xl ring-1 ring-slate-100">
+          <div className="absolute right-0 z-40 mt-2 w-80 origin-top-right animate-scale-in overflow-hidden rounded-xl bg-white shadow-xl ring-1 ring-slate-100">
             <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
               <p className="text-sm font-semibold text-ink">Notifications</p>
               {unread > 0 && (

@@ -71,7 +71,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               </button>
 
               {expanded && (
-                <div className="mt-1 space-y-0.5 pl-4">
+                <div className="mt-1 animate-slide-down space-y-0.5 pl-4">
                   {(group.children ?? []).map((child) =>
                     "href" in child ? (
                       child.href === "/logout" ? (
@@ -131,7 +131,7 @@ function SidebarUser() {
       {open && (
         <>
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute bottom-16 left-3 right-3 z-20 animate-fade-in rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-slate-100">
+          <div className="absolute bottom-16 left-3 right-3 z-20 origin-bottom animate-scale-in rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-slate-100">
             <Link href="/dashboard/profile" onClick={() => setOpen(false)} className="block rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
               My profile
             </Link>
@@ -186,7 +186,7 @@ function SubGroup({
         <Icon name="chevron" size={14} className={`transition-transform ${open ? "rotate-90" : ""}`} />
       </button>
       {open && (
-        <div className="space-y-0.5 border-l border-slate-100 pl-3">
+        <div className="animate-slide-down space-y-0.5 border-l border-slate-100 pl-3">
           {links.map((l) => (
             <SidebarLink
               key={l.href}

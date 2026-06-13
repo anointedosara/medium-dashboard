@@ -49,23 +49,93 @@ body {
   background: transparent;
 }
 
+/* Smooth anchor / programmatic scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Reusable bits */
 .card {
   background: #fff;
   border-radius: 1rem;
   box-shadow: 0 1px 3px rgba(20, 20, 50, 0.04), 0 8px 24px rgba(20, 20, 50, 0.04);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
+/* ------------------------------------------------------------------ */
+/* Animation system                                                    */
+/* ------------------------------------------------------------------ */
+
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in {
-  animation: fadeIn 0.25s ease-out;
+@keyframes pageIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.8); }
+  60%  { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in    { animation: fadeIn 0.25s ease-out both; }
+.animate-page       { animation: pageIn 0.3s ease-out both; }
+.animate-fade-in-up { animation: fadeInUp 0.45s cubic-bezier(0.16, 0.84, 0.44, 1) both; }
+.animate-scale-in   { animation: scaleIn 0.16s ease-out both; }
+.animate-slide-down { animation: slideDown 0.2s ease-out both; }
+.animate-pop        { animation: popIn 0.32s ease-out both; }
+
+/* Staggered children — apply `stagger` to a container to cascade its items in. */
+.stagger > * { animation: fadeInUp 0.5s cubic-bezier(0.16, 0.84, 0.44, 1) both; }
+.stagger > *:nth-child(1)  { animation-delay: 0.02s; }
+.stagger > *:nth-child(2)  { animation-delay: 0.06s; }
+.stagger > *:nth-child(3)  { animation-delay: 0.10s; }
+.stagger > *:nth-child(4)  { animation-delay: 0.14s; }
+.stagger > *:nth-child(5)  { animation-delay: 0.18s; }
+.stagger > *:nth-child(6)  { animation-delay: 0.22s; }
+.stagger > *:nth-child(7)  { animation-delay: 0.26s; }
+.stagger > *:nth-child(8)  { animation-delay: 0.30s; }
+.stagger > *:nth-child(n + 9) { animation-delay: 0.34s; }
+
+/* Scroll-reveal: elements get `.reveal` (hidden) then `.in` when in view. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s cubic-bezier(0.16, 0.84, 0.44, 1),
+    transform 0.55s cubic-bezier(0.16, 0.84, 0.44, 1);
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

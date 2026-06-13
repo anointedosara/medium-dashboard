@@ -198,8 +198,8 @@ export default function CalendarPage() {
 
       {/* Day view / add modal */}
       {viewDay != null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setViewDay(null)}>
-          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black/40 p-4" onClick={() => setViewDay(null)}>
+          <div className="w-full max-w-md animate-scale-in rounded-2xl bg-white p-5 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="mb-4 flex items-start justify-between">
               <div>
                 <h3 className="text-base font-bold text-ink">
