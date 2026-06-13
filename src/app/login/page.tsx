@@ -33,8 +33,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-canvas p-4 sm:p-8">
-      <div className="card mx-auto grid max-w-6xl gap-6 p-4 sm:p-6 lg:grid-cols-2">
+    <div className="flex min-h-screen w-full items-center justify-center bg-canvas p-4 sm:p-8">
+      <div className="card grid w-full max-w-6xl gap-6 p-4 sm:p-6 lg:grid-cols-2">
         <div className="flex flex-col justify-center px-4 py-8 sm:px-12">
           <div className="mx-auto w-full max-w-sm">
             <div className="mb-8 lg:hidden">
