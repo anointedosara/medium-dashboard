@@ -10,12 +10,17 @@ export function useResource(type: string) {
 
   const load = useCallback(async () => {
     setLoading(true);
-    const res = await fetch(`/api/resource/${type}`);
-    if (res.ok) {
-      const data = await res.json();
-      setItems(data.items ?? []);
+    try {
+      const res = await fetch(`/api/resource/${type}`);
+      if (res.ok) {
+        const data = await res.json();
+        setItems(data.items ?? []);
+      }
+    } catch {
+      // Network blip (e.g. server restarting) — keep current items, don't throw.
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [type]);
 
   useEffect(() => {
@@ -24,35 +29,47 @@ export function useResource(type: string) {
 
   const create = useCallback(
     async (body: Record<string, unknown>) => {
-      const res = await fetch(`/api/resource/${type}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      await load();
-      return res.ok;
+      try {
+        const res = await fetch(`/api/resource/${type}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        await load();
+        return res.ok;
+      } catch {
+        return false;
+      }
     },
     [type, load]
   );
 
   const update = useCallback(
     async (id: string, body: Record<string, unknown>) => {
-      const res = await fetch(`/api/resource/${type}/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      await load();
-      return res.ok;
+      try {
+        const res = await fetch(`/api/resource/${type}/${id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        await load();
+        return res.ok;
+      } catch {
+        return false;
+      }
     },
     [type, load]
   );
 
   const remove = useCallback(
     async (id: string) => {
-      const res = await fetch(`/api/resource/${type}/${id}`, { method: "DELETE" });
-      await load();
-      return res.ok;
+      try {
+        const res = await fetch(`/api/resource/${type}/${id}`, { method: "DELETE" });
+        await load();
+        return res.ok;
+      } catch {
+        return false;
+      }
     },
     [type, load]
   );

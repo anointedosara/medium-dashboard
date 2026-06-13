@@ -23,8 +23,8 @@ export function useNotifications(pollMs = 15000) {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch("/api/notifications");
-      if (!res.ok) return;
+      const res = await fetch("/api/notifications").catch(() => null);
+      if (!res || !res.ok) return;
       const data = await res.json();
       const next: Notification[] = data.items ?? [];
       // Surface a freshly-arrived notification (for a live toast) — skip first load.

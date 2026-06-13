@@ -55,13 +55,18 @@ export function UserProvider({
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
-    const res = await fetch("/api/me");
-    if (res.ok) {
-      const data = await res.json();
-      setUser(data.user);
-      setActivities(data.activities ?? []);
+    try {
+      const res = await fetch("/api/me");
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+        setActivities(data.activities ?? []);
+      }
+    } catch {
+      // Transient network failure (e.g. server restarting) — keep current user.
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
