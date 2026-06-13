@@ -116,8 +116,8 @@ export default function ProfileOverviewPage() {
         </div>
       </div>
 
-      {/* My profile rail */}
-      <Card>
+      {/* My profile rail — sized to its content and centered beside the tall column */}
+      <Card className="xl:self-center">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-ink">My profile</h3>
           <div className="flex gap-2 text-slate-400">
