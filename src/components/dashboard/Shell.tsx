@@ -74,7 +74,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={titleFromPath(pathname)} onMenu={() => setMobileOpen(true)} />
         <main className="scroll-thin flex-1 overflow-y-auto p-4 sm:p-6">
-          <div className="animate-fade-in">{children}</div>
+          <div className="animate-fade-in mx-auto w-full max-w-[1600px]">{children}</div>
         </main>
       </div>
     </div>
@@ -83,7 +83,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
 function Topbar({ title, onMenu }: { title: string; onMenu: () => void }) {
   return (
-    <header className="flex items-center gap-3 px-4 py-4 sm:px-6">
+    <header className="px-4 py-4 sm:px-6">
+      <div className="mx-auto flex w-full max-w-[1600px] items-center gap-3">
       <button
         onClick={onMenu}
         className="rounded-lg p-2 text-slate-600 hover:bg-white lg:hidden"
@@ -107,6 +108,7 @@ function Topbar({ title, onMenu }: { title: string; onMenu: () => void }) {
       </div>
       <div className="ml-auto md:ml-0">
         <NotificationBell />
+      </div>
       </div>
     </header>
   );
